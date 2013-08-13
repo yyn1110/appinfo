@@ -82,11 +82,13 @@ func (this *SearchController) Get() {
 		r := new(ResultsInfo)
 		err = json.Unmarshal(body, r)
 		if err != nil {
-			this.Ctx.WriteString(DecodeErr + err.Error())
+			this.Ctx.WriteString(DecodeErr)
+			return
 		}
-		rest, err := json.MarshalIndent(r, "  ", "  ")
+		rest, err := json.MarshalIndent(r, "  ", "")
 		if err != nil {
-			//this.Ctx.WriteString(DecodeErr + err.Error())
+			this.Ctx.WriteString(DecodeErr)
+			return
 		}
 		this.Ctx.WriteString(string(rest))
 	}
