@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	//"github.com/bitly/go-simplejson"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
