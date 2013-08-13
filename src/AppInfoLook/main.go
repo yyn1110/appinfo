@@ -7,6 +7,6 @@ import (
 
 func main() {
 	beego.Router("/", &controllers.MainController{})
+	beego.Router("/appinfo/:appid", &controllers.SearchController{})
 	beego.Run()
 }
-
