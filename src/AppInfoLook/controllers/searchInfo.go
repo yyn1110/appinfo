@@ -1,9 +1,8 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
-	//"github.com/bitly/go-simplejson"
 	"encoding/json"
+	"github.com/astaxie/beego"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -60,13 +59,24 @@ type SearchController struct {
 
 func (this *SearchController) Get() {
 	id := this.Ctx.Params[":appid"]
+	str := this.Ctx.Params[":lg"]
+	if str == "" {
+		this.Ctx.WriteString(RequestLgErr)
+		return
+	}
 	_, err := strconv.Atoi(id)
 	if err != nil {
 		this.Ctx.WriteString(AppIDErr)
 		return
 	}
 
-	requestURL := AppleCNLookURL + string(id)
+	var requestURL string
+	if str == "en" {
+		requestURL = AppleENLookURL + string(id)
+	} else if str == "ch" {
+		requestURL = AppleCNLookURL + string(id)
+	}
+
 	resp, err := http.Get(requestURL)
 	defer resp.Body.Close()
 	if err != nil {
