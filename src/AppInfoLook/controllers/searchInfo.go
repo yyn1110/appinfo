@@ -1,6 +1,8 @@
 package controllers
 
 import (
+
+	"github.com/astaxie/beego"
 	"encoding/json"
 	"github.com/astaxie/beego"
 	"io/ioutil"
