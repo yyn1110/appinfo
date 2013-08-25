@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"encoding/json"
+	"fmt"
+	"github.com/astaxie/beego"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -59,6 +60,14 @@ type SearchController struct {
 
 func (this *SearchController) Get() {
 	id := this.Ctx.Params[":appid"]
+
+	fmt.Println("======", id)
+
+	if id == "" {
+
+		this.Ctx.WriteString(AppIDEmtyErr)
+		return
+	}
 	_, err := strconv.Atoi(id)
 	if err != nil {
 		this.Ctx.WriteString(AppIDErr)
