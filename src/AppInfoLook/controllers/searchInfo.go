@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/astaxie/beego"
 	"io/ioutil"
 	"net/http"
@@ -61,11 +60,9 @@ type SearchController struct {
 func (this *SearchController) Get() {
 	id := this.Ctx.Params[":appid"]
 
-	fmt.Println("======", id)
-
-	if id == "" {
-
-		this.Ctx.WriteString(AppIDEmtyErr)
+	str := this.Ctx.Params[":lg"]
+	if str == "" {
+		this.Ctx.WriteString(RequestLgErr)
 		return
 	}
 	_, err := strconv.Atoi(id)
@@ -74,7 +71,13 @@ func (this *SearchController) Get() {
 		return
 	}
 
-	requestURL := AppleCNLookURL + string(id)
+	var requestURL string
+	if str == "en" {
+		requestURL = AppleENLookURL + string(id)
+	} else if str == "ch" {
+		requestURL = AppleCNLookURL + string(id)
+	}
+
 	resp, err := http.Get(requestURL)
 	defer resp.Body.Close()
 	if err != nil {
